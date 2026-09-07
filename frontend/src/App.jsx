@@ -40,11 +40,12 @@ function App() {
   const formatDate = (date) => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
   const inputClass = 'w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100'
 
-  return (
+  return 
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-stone-50 to-emerald-50/40 px-4 py-6 text-slate-800 sm:px-6 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
         <header className="mb-10 flex items-center justify-between border-b border-slate-200/80 pb-5">
-          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-slate-900 text-white shadow-lg shadow-slate-900/15"><WalletCards size={21} /></span><span className="font-['Space_Grotesk'] text-xl font-bold tracking-tight">ledgerly</span></div>
+          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-slate-900 text-white shadow-lg shadow-slate-900/15"><WalletCards size={21} /></span><span className="font-['Space_Grotesk'] text-xl font-bold tracking-tight">F
+            </span></div>
           <div className="hidden items-center gap-2 text-[10px] font-bold tracking-[0.18em] text-slate-500 sm:flex">PERSONAL FINANCE <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> LIVE VIEW</div>
         </header>
 
