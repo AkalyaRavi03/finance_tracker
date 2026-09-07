@@ -44,7 +44,8 @@ function App() {
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-stone-50 to-emerald-50/40 px-4 py-6 text-slate-800 sm:px-6 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
         <header className="mb-10 flex items-center justify-between border-b border-slate-200/80 pb-5">
-          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-slate-900 text-white shadow-lg shadow-slate-900/15"><WalletCards size={21} /></span><span className="font-['Space_Grotesk'] text-xl font-bold tracking-tight">F
+          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl bg-slate-900 text-white shadow-lg shadow-slate-900/15"><WalletCards size={21} />Finance tracker
+          </span><span className="font-['Space_Grotesk'] text-xl font-bold tracking-tight">
             </span></div>
           <div className="hidden items-center gap-2 text-[10px] font-bold tracking-[0.18em] text-slate-500 sm:flex">PERSONAL FINANCE <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> LIVE VIEW</div>
         </header>
