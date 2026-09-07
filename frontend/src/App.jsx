@@ -51,7 +51,7 @@ function App() {
         </header>
 
         <section className="mb-8 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div><p className="mb-3 text-[11px] font-bold tracking-[0.2em] text-emerald-700">OVERVIEW / SEPTEMBER 2026</p><h1 className="font-['Space_Grotesk'] text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Your money, in focus.</h1><p className="mt-4 text-base text-slate-500">A clear view of where your finances stand today.</p></div>
+          <div><p className="mb-3 text-[11px] font-bold tracking-[0.2em] text-emerald-700">OVERVIEW s / SEPTEMBER 2026</p><h1 className="font-['Space_Grotesk'] text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Your money, in focus.</h1><p className="mt-4 text-base text-slate-500">A clear view of where your finances stand today.</p></div>
           <div className="border-l-2 border-emerald-500 pl-5"><span className="text-[10px] font-bold tracking-[0.18em] text-slate-500">CURRENT BALANCE</span><strong className={`mt-1 block font-['Space_Grotesk'] text-3xl font-bold tracking-tight ${balance < 0 ? 'text-red-600' : 'text-slate-900'}`}>{formatCurrency(balance)}</strong></div>
         </section>
 
