@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { ArrowDownLeft, ArrowUpRight, LoaderCircle, Plus, WalletCards } from 'lucide-react'
 
-const API_URL = 'http://localhost:5000/api/transactions'
+const API_URL =  'https://finance-tracker-38eq.onrender.com/api/transactions'
 const initialForm = { amount: '', type: 'expense', category: 'Food & dining', note: '' }
 const formatCurrency = (amount) => `₹${Number(amount).toLocaleString('en-IN')}`
 
