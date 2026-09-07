@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { ArrowDownLeft, ArrowUpRight, LoaderCircle, Plus, WalletCards } from 'lucide-react'
+import { ArrowDownLeft, ArrowUpRight, LoaderCircle, Plus, Trash2, WalletCards } from 'lucide-react'
 
 const API_URL =  'https://finance-tracker-38eq.onrender.com/api/transactions'
 const initialForm = { amount: '', type: 'expense', category: 'Food & dining', note: '' }
@@ -11,6 +11,7 @@ function App() {
   const [form, setForm] = useState(initialForm)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [deletingId, setDeletingId] = useState(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -34,6 +35,19 @@ function App() {
       setError('Could not save that transaction. Please try again.')
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  async function handleDelete(transactionId) {
+    setError('')
+    setDeletingId(transactionId)
+    try {
+      await axios.delete(`${API_URL}/${transactionId}`)
+      setTransactions((current) => current.filter((transaction) => transaction._id !== transactionId))
+    } catch {
+      setError('Could not delete that transaction. Please try again.')
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -66,7 +80,7 @@ function App() {
             <form className="grid gap-5" onSubmit={handleSubmit}><label className="grid gap-2 text-sm font-semibold text-slate-700">Amount<input className={inputClass} name="amount" type="number" min="0.01" step="0.01" value={form.amount} onChange={handleChange} placeholder="0.00" required /></label><div className="grid gap-4 sm:grid-cols-2"><label className="grid gap-2 text-sm font-semibold text-slate-700">Type<select className={inputClass} name="type" value={form.type} onChange={handleChange}><option value="expense">Expense</option><option value="income">Income</option></select></label><label className="grid gap-2 text-sm font-semibold text-slate-700">Category<select className={inputClass} name="category" value={form.category} onChange={handleChange}><option>Food & dining</option><option>Housing</option><option>Transport</option><option>Shopping</option><option>Salary</option><option>Freelance</option><option>Other</option></select></label></div><label className="grid gap-2 text-sm font-semibold text-slate-700">Note <span className="ml-1 text-[10px] font-bold tracking-wider text-slate-400">OPTIONAL</span><input className={inputClass} name="note" value={form.note} onChange={handleChange} placeholder="What was this for?" /></label><button className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3.5 font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60" type="submit" disabled={isSubmitting}>{isSubmitting ? <LoaderCircle className="animate-spin" size={18} /> : <Plus size={18} />}{isSubmitting ? 'Saving...' : 'Add transaction'}</button></form>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/5 sm:p-7"><div className="mb-5 flex items-start justify-between"><div><p className="mb-2 text-[10px] font-bold tracking-[0.18em] text-emerald-700">ACTIVITY</p><h2 className="font-['Space_Grotesk'] text-2xl font-semibold tracking-tight text-slate-900">Recent transactions</h2></div><span className="pt-2 text-[10px] font-bold tracking-[0.18em] text-slate-400">{transactions.length} {transactions.length === 1 ? 'ITEM' : 'ITEMS'}</span></div>{isLoading ? <div className="grid min-h-56 place-items-center text-slate-500"><LoaderCircle className="animate-spin" size={22} /></div> : transactions.length === 0 ? <div className="grid min-h-56 place-items-center text-center text-slate-500"><div><WalletCards className="mx-auto mb-3" size={25} /><p className="text-sm">No transactions yet.<br />Add your first one to get started.</p></div></div> : <div>{transactions.map((transaction) => <div className="flex items-center gap-3 border-t border-slate-100 py-4" key={transaction._id}><span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${transaction.type === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}`}>{transaction.type === 'income' ? <ArrowUpRight size={18} /> : <ArrowDownLeft size={18} />}</span><div className="min-w-0 flex-1"><strong className="block text-sm text-slate-800">{transaction.category}</strong><span className="mt-1 block truncate text-xs text-slate-500">{transaction.description || 'No note'} · {formatDate(transaction.date)}</span></div><strong className={`font-['Space_Grotesk'] text-sm font-semibold ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>{transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}</strong></div>)}</div>}</section>
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/5 sm:p-7"><div className="mb-5 flex items-start justify-between"><div><p className="mb-2 text-[10px] font-bold tracking-[0.18em] text-emerald-700">ACTIVITY</p><h2 className="font-['Space_Grotesk'] text-2xl font-semibold tracking-tight text-slate-900">Recent transactions</h2></div><span className="pt-2 text-[10px] font-bold tracking-[0.18em] text-slate-400">{transactions.length} {transactions.length === 1 ? 'ITEM' : 'ITEMS'}</span></div>{isLoading ? <div className="grid min-h-56 place-items-center text-slate-500"><LoaderCircle className="animate-spin" size={22} /></div> : transactions.length === 0 ? <div className="grid min-h-56 place-items-center text-center text-slate-500"><div><WalletCards className="mx-auto mb-3" size={25} /><p className="text-sm">No transactions yet.<br />Add your first one to get started.</p></div></div> : <div>{transactions.map((transaction) => <div className="flex items-center gap-3 border-t border-slate-100 py-4" key={transaction._id}><span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${transaction.type === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'}`}>{transaction.type === 'income' ? <ArrowUpRight size={18} /> : <ArrowDownLeft size={18} />}</span><div className="min-w-0 flex-1"><strong className="block text-sm text-slate-800">{transaction.category}</strong><span className="mt-1 block truncate text-xs text-slate-500">{transaction.description || 'No note'} · {formatDate(transaction.date)}</span></div><strong className={`font-['Space_Grotesk'] text-sm font-semibold ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>{transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}</strong><button className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-wait disabled:opacity-50" type="button" onClick={() => handleDelete(transaction._id)} disabled={deletingId === transaction._id} aria-label={`Delete ${transaction.category} transaction`} title="Delete transaction">{deletingId === transaction._id ? <LoaderCircle className="animate-spin" size={17} /> : <Trash2 size={17} />}</button></div>)}</div>}</section>
         </div>
       </div>
     </main>
